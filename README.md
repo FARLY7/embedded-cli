@@ -70,7 +70,7 @@ cli_t cli = {
 
 if((rslt = cli_init(&cli)) != CLI_OK)
 {
-    printf("CLI: Failed to initialise);
+    printf("CLI: Failed to initialise");
 }
 ```
 

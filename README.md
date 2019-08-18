@@ -34,7 +34,7 @@ The package includes cli.h, and cli.c.
 To correctly set up the CLI, the user must do four things:
 
 1. Create a table of commands which are to be accepted by the CLI, using the cmd_t structure.
-    Note: command functions must use the ```cli_status_t (*func)(int argc, char **argv)``` definition.
+**Note**: command functions must use the ```cli_status_t (*func)(int argc, char **argv)``` definition.
 ```c
 cmd_t cmds[2] = {
     {

@@ -4,52 +4,81 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "queue.h"
-
-
-#define CLI_RX_BUF_SIZE     128U
-#define CLI_TX_BUF_SIZE     128U
-
+#define MAX_BUF_SIZE        128     /* Maximum size of CLI Rx buffer */ 
+#define CMD_TERMINATOR      '\r'    /* Delimitor denoting end of cmd */
 
 typedef enum
 {
-    CLI_OK,
-    CLI_ERROR
+    CLI_OK,                 /* API execution successful.                */
+    CLI_E_NULL_PTR,         /* Null pointer error.                      */
+    CLI_E_CMD_NOT_FOUND,    /* Command name not found in command table. */
+    CLI_E_INVALID_ARGS,     /* Invalid function parameters/arguments.   */
+    CLI_E_BUF_FULL          /* CLI buffer full.                         */
 } cli_status_t;
 
-typedef struct 
-{
-    char *name;
-    void *func;
-} cli_cmd_t;
+/*!
+ * @brief Function type declarations.
+ */
+typedef cli_status_t (*cmd_func_ptr_t)(int argc, char **argv);
+typedef void (*println_func_ptr_t)(char *string);
 
-
-typedef void (*usr_uart_tx_fptr_t)(uint8_t *buf, size_t len);
-
-
+/*!
+ * @brief Command structure, consisting of a name and function pointer.
+ */ 
 typedef struct
-{        
-    queue_t rx_q;
-    queue_t cmd_q;
+{
+    char *cmd;           /* Command name.                            */
+    cmd_func_ptr_t func; /* Function pointer to associated function. */
+} cmd_t;
 
-    usr_uart_tx_fptr_t send;
-
-} cli_handle_t;
-
-
-void cli_rx_IrqHandler(uint8_t data);
-
-void cli_put(uint8_t byte);
-
-
-cli_status_t cli_process(cli_handle_t *cli);
-
-cli_status_t cli_init(cli_handle_t *cli, cli_cmd_t cmds, size_t cmd_cnt);
-
-cli_status_t cli_register_command(cli_handle_t *cli);
+/*!
+ * @brief Command-line interface handle structure.
+ */
+typedef struct
+{    
+    println_func_ptr_t println; /* Function pointer to user defined println function.      */
+    cmd_t *cmd_tbl;             /* Pointer to series of commands which are to be accepted. */
+    size_t cmd_cnt;             /* Number of commands in cmd_tbl.                          */
+} cli_t;
 
 
+/*!
+ * @brief This API initialises the command-line interface.
+ * 
+ * @param[in] cli : Pointer to cli handle struct.
+ * 
+ * @return none
+ */
+cli_status_t cli_init(cli_t *cli);
 
+/*!
+ * @brief This API deinitialises the command-line interface.
+ * 
+ * @param[in] cli : Pointer to cli handle struct.
+ * 
+ * @return none
+ */
+cli_status_t cli_deinit(cli_t *cli);
 
+/*!
+ * @brief This API must be periodically called by the user to process and execute
+ *        any commands received.
+ * 
+ * @param[in] cli : Pointer to cli handle struct.
+ * 
+ * @return none
+ */
+cli_status_t cli_process(cli_t *cli);
+
+/*!
+ * @brief This API should be called from the devices interrupt handler whenever a
+ *        character is received over the input stream.
+ * 
+ * @param[in] cli : Pointer to cli handle struct.
+ * @param[in]   c : The character received.
+ * 
+ * @return none
+ */
+cli_status_t cli_put(cli_t *cli, char c);
 
 #endif

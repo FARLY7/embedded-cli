@@ -1,37 +1,61 @@
 #include "cli.h"
 
 
-cli_cmd_t cmds[2] = {
+static void help_func(int argc, char **argv);
+static void blink_func(int argc, char **argv);
+
+cmd_t cmd_tbl[] = {
+
     {
-        .name = "help",
+        .cmd = "help",
         .func = help_func
     },
     {
-        .name = "echo",
-        .func = echo_func
+        .cmd = "blink",
+        .func = blink_func
     }
 };
 
+cli_t cli;
+
+
 int main(void)
 {
-    cli_handle_t cli;
+    cli.println = user_uart_println;
+    cli.cmd_tbl = cmd_tbl;
+    cli.cmd_cnt = sizeof(cmd_tbl);
+    cli_init(&cli);
 
-    cli_init(&cli, cmds, sizeof(cmds));
-
-
-    cli_register_cmd(&cmds[0]);   
-    cli_register_cmd(&cmds[1]);
-
+    while(1)
+    {
+        cli_process(&cli);
+    }
 
     return 0;
 }
 
-void help_func()
-{
 
+void user_uart_println(char *string)
+{
+    printf(string);
 }
 
-void echo_func()
+void help_func(int argc, char **argv)
 {
+    cli.println("HELP function executed");
+}
 
+void blink_func(int argc, char **argv)
+{
+    if(argc > 0)
+    {
+        if(strcmp(argv[1], "-help") == 0)
+        {
+            cli.println("BLINK help menu");
+        }
+    }
+    else
+    {
+        cli.println("BLINK function executed");
+    }
 }

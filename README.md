@@ -4,8 +4,8 @@ This useful tool allows a user to remotely invoke functions on their device by s
 
 ## Features
 * Remotely invoke functions on device.
-* Specify fucntion parameters.
-* No dynamic memory allocation.
+* Ability to process function parameters.
+* Statically allocated memory.
 * Backspace to remove unintentional keypresses.
 
 ## Introduction

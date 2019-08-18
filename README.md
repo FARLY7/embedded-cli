@@ -9,7 +9,7 @@ This useful tool allows a user to remotely invoke functions on their device by s
 * Backspace to remove unintentional keypresses.
 
 ## Introduction
-This package contains files to implement a simple commnd-line interface.
+This package contains files to implement a simple command-line interface.
 The package includes cli.h, and cli.c.
 
 ## Integration details

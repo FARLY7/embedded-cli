@@ -1,7 +1,36 @@
+/*
+ * MIT License
+ * 
+ * Copyright (c) 2019 Sean Farrelly
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * 
+ * File        cli.c
+ * Created by  Sean Farrelly
+ * Version     1.0
+ * 
+ */
+
+/*! @file cli.c
+ * @brief Implementation of command-line interface.
+ */
 #include "cli.h"
-
-
-/* Command line buffer and pointer */
 
 static uint8_t buf[MAX_BUF_SIZE];      /* CLI Rx byte-buffer */
 static uint8_t *buf_ptr;               /* Pointer to Rx byte-buffer */
@@ -9,11 +38,16 @@ static uint8_t *buf_ptr;               /* Pointer to Rx byte-buffer */
 static uint8_t cmd_buf[MAX_BUF_SIZE];  /* CLI command buffer */
 static uint8_t *cmd_ptr;               /* Pointer to command buffer */
 
-
-/* Text strings used in CLI */
-const char cli_prompt[] = ">> ";
+const char cli_prompt[] = ">> ";       /* CLI prompt displayed to the user */
 const char cli_unrecog[] = "CMD: Command not recognised";
+const char cli_error_msg[] = {
+    "OK",
+    "Command not recognised"
+};
 
+/*!
+ * @brief This internal API prints a message to the user on the CLI.
+ */
 static void cli_print(cli_t *cli, char *msg);
 
 /*!
@@ -72,7 +106,10 @@ cli_status_t cli_process(cli_t *cli)
     return CLI_E_CMD_NOT_FOUND;
 }
 
-
+/*!
+ * @brief This API should be called from the devices interrupt handler whenever a
+ *        character is received over the input stream.
+ */
 cli_status_t cli_put(cli_t *cli, char c)
 {
     switch(c)

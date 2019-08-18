@@ -1,8 +1,15 @@
 # cli-embedded
 A simple command-line interface for use in embedded systems.
+This useful tool allows a user to remotely invoke functions on their device by specifing commands (and parameters) over a byte stream protocol.
+
+## Features
+* Remotely invoke functions on device.
+* Specify fucntion parameters.
+* No dynamic memory allocation.
+* Backspace to remove unintentional keypresses.
 
 ## Introduction
-This package contains a simple CLI.
+This package contains files to implement a simple commnd-line interface.
 The package includes cli.h, and cli.c.
 
 ## Integration details
@@ -44,7 +51,7 @@ cli_status_t help_func(int argc, char **argv)
 {
     cli_status_t rslt = CLI_OK;
 
-    /* Code executed when help is entered *
+    /* Code executed when 'help' is entered */
 
     return rslt;
 }
@@ -53,7 +60,7 @@ cli_status_t echo_func(int argc, char **argv)
 {
     cli_status_t rslt = CLI_OK;
 
-    /* Code executed when echo is entered *
+    /* Code executed when 'echo' is entered */
 
     return rslt;
 }

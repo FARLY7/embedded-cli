@@ -34,7 +34,8 @@ The package includes cli.h, and cli.c.
 To correctly set up the CLI, the user must do four things:
 
 1. Create a table of commands which are to be accepted by the CLI, using the cmd_t structure.
-**Note**: command functions must use the ```cli_status_t (*func)(int argc, char **argv)``` definition.
+
+**Note**: Command functions must use the ```cli_status_t (*func)(int argc, char **argv)``` definition.
 ```c
 cmd_t cmds[2] = {
     {
@@ -46,25 +47,8 @@ cmd_t cmds[2] = {
         .func = echo_func
     }
 };
-
-cli_status_t help_func(int argc, char **argv)
-{
-    cli_status_t rslt = CLI_OK;
-
-    /* Code executed when 'help' is entered */
-
-    return rslt;
-}
-
-cli_status_t echo_func(int argc, char **argv)
-{
-    cli_status_t rslt = CLI_OK;
-
-    /* Code executed when 'echo' is entered */
-
-    return rslt;
-}
 ```
+
 2. Place the cli_put() function within the devices interrupt handler responsible for receiving 1 byte over the communication protocol.
  ```c
  void UART_Rx_IrqHandler()
@@ -92,3 +76,32 @@ if((rslt = cli_init(&cli)) != CLI_OK)
 
 4. Periodically call the ```cli_process()``` function in order to process incoming commands.
 
+## Function templates
+```c
+cli_status_t user_uart_println(char *string)
+{
+    /* For example.. */
+    if(HAL_UART_Transmit_IT(&huart, string, strlen(string)) != HAL_OK)
+        return SLI_E_IO;
+    
+    return SLI_OK;
+}
+
+cli_status_t help_func(int argc, char **argv)
+{
+    cli_status_t rslt = CLI_OK;
+
+    /* Code executed when 'help' is entered */
+
+    return rslt;
+}
+
+cli_status_t echo_func(int argc, char **argv)
+{
+    cli_status_t rslt = CLI_OK;
+
+    /* Code executed when 'echo' is entered */
+
+    return rslt;
+}
+```

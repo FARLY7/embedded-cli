@@ -28,8 +28,7 @@ The package includes cli.h, and cli.c.
 * Typically, UART.
 * .. Any byte-stream based interface.
   
-## User Guide
-
+## Integration Guide
 ### Initialising the CLI
 To correctly set up the CLI, the user must do four things:
 
@@ -75,6 +74,14 @@ if((rslt = cli_init(&cli)) != CLI_OK)
 ```
 
 4. Periodically call the ```cli_process()``` function in order to process incoming commands.
+
+## User Guide
+To interface with the CLI, the user must open a communication stream on their chosen protocol (typically UART).
+The default end-of-delimiter used by the application is '\n', however this can be changed.
+The user can invoke their functions by sending:
+```echo <param>\n```
+* echo, the name of the command
+* <param>, first parameter (if required).
 
 ## Function templates
 ```c

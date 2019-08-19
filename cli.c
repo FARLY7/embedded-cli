@@ -31,6 +31,8 @@
  * @brief Implementation of command-line interface.
  */
 #include "cli.h"
+
+#include <stdint.h>
 #include <string.h>
 
 static uint8_t buf[MAX_BUF_SIZE];      /* CLI Rx byte-buffer */
@@ -45,6 +47,9 @@ const char *cli_error_msg[] = {
     "OK",
     "Command not recognised"
 };
+
+
+
 
 /*!
  * @brief This internal API prints a message to the user on the CLI.

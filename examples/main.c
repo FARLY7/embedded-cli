@@ -5,7 +5,6 @@ static void help_func(int argc, char **argv);
 static void blink_func(int argc, char **argv);
 
 cmd_t cmd_tbl[] = {
-
     {
         .cmd = "help",
         .func = help_func
@@ -17,7 +16,6 @@ cmd_t cmd_tbl[] = {
 };
 
 cli_t cli;
-
 
 int main(void)
 {

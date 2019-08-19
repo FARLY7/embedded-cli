@@ -31,6 +31,7 @@
  * @brief Implementation of command-line interface.
  */
 #include "cli.h"
+#include <string.h>
 
 static uint8_t buf[MAX_BUF_SIZE];      /* CLI Rx byte-buffer */
 static uint8_t *buf_ptr;               /* Pointer to Rx byte-buffer */
@@ -40,7 +41,7 @@ static uint8_t *cmd_ptr;               /* Pointer to command buffer */
 
 const char cli_prompt[] = ">> ";       /* CLI prompt displayed to the user */
 const char cli_unrecog[] = "CMD: Command not recognised";
-const char cli_error_msg[] = {
+const char *cli_error_msg[] = {
     "OK",
     "Command not recognised"
 };
@@ -48,7 +49,7 @@ const char cli_error_msg[] = {
 /*!
  * @brief This internal API prints a message to the user on the CLI.
  */
-static void cli_print(cli_t *cli, char *msg);
+static void cli_print(cli_t *cli, const char *msg);
 
 /*!
  * @brief This API initialises the command-line interface.
@@ -141,7 +142,7 @@ cli_status_t cli_put(cli_t *cli, char c)
 /*!
  * @brief Print a message on the command-line interface.
  */
-static void cli_print(cli_t *cli, char *msg)
+static void cli_print(cli_t *cli, const char *msg)
 {
     /* Temp buffer to store text in ram first */
     char buf[50];

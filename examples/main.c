@@ -21,7 +21,7 @@ int main(void)
 {
     cli.println = user_uart_println;
     cli.cmd_tbl = cmd_tbl;
-    cli.cmd_cnt = sizeof(cmd_tbl);
+    cli.cmd_cnt = sizeof(cmd_tbl)/sizeof(cmd_t);
     cli_init(&cli);
 
     while(1)

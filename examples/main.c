@@ -1,8 +1,8 @@
 #include "cli.h"
 
 
-static void help_func(int argc, char **argv);
-static void blink_func(int argc, char **argv);
+static cli_status_t help_func(int argc, char **argv);
+static cli_status_t blink_func(int argc, char **argv);
 
 cmd_t cmd_tbl[] = {
     {
@@ -33,17 +33,19 @@ int main(void)
 }
 
 
-void user_uart_println(char *string)
+cli_status_t user_uart_println(char *string)
 {
     printf(string);
+    return SLI_OK;
 }
 
-void help_func(int argc, char **argv)
+cli_status_t help_func(int argc, char **argv)
 {
     cli.println("HELP function executed");
+    return CLI_OK;
 }
 
-void blink_func(int argc, char **argv)
+cli_status_t blink_func(int argc, char **argv)
 {
     if(argc > 0)
     {
@@ -51,9 +53,14 @@ void blink_func(int argc, char **argv)
         {
             cli.println("BLINK help menu");
         }
+        else
+        {
+            return CLI_E_INVALID_ARGS;
+        }
     }
     else
     {
         cli.println("BLINK function executed");
     }
+    return CLI_OK;
 }

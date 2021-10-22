@@ -24,6 +24,8 @@ int main(void)
     cli.cmd_cnt = sizeof(cmd_tbl)/sizeof(cmd_t);
     cli_init(&cli);
 
+    // enable UART receive-data interrupts here, so that UART_Rx_IrqHandler() gets called when data is received
+
     while(1)
     {
         cli_process(&cli);
@@ -32,6 +34,11 @@ int main(void)
     return 0;
 }
 
+void UART_Rx_IrqHandler()
+{
+    char c = UART->RxData;
+    cli_put(&cli, c);
+}
 
 cli_status_t user_uart_println(char *string)
 {

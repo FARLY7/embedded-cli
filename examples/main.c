@@ -34,16 +34,17 @@ int main(void)
     return 0;
 }
 
+/* For example.. */
 void UART_Rx_IrqHandler()
 {
     char c = UART->RxData;
     cli_put(&cli, c);
 }
 
-cli_status_t user_uart_println(char *string)
+void user_uart_println(char *string)
 {
-    printf(string);
-    return SLI_OK;
+    /* For example.. */
+    HAL_UART_Transmit_IT(&huart, string, strlen(string));
 }
 
 cli_status_t help_func(int argc, char **argv)

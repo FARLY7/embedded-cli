@@ -85,13 +85,10 @@ The user can invoke their functions by sending:
 
 ## Function templates
 ```c
-cli_status_t user_uart_println(char *string)
+void user_uart_println(char *string)
 {
     /* For example.. */
-    if(HAL_UART_Transmit_IT(&huart, string, strlen(string)) != HAL_OK)
-        return SLI_E_IO;
-    
-    return SLI_OK;
+    HAL_UART_Transmit_IT(&huart, string, strlen(string));
 }
 
 cli_status_t help_func(int argc, char **argv)

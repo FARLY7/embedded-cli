@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 #define MAX_BUF_SIZE        128     /* Maximum size of CLI Rx buffer */ 
-#define CMD_TERMINATOR      '\r'    /* Delimitor denoting end of cmd */
+#define CMD_TERMINATOR      '\r'    /* Delimiter denoting end of cmd from user */
 
 typedef enum
 {
@@ -13,7 +13,8 @@ typedef enum
     CLI_E_IO,
     CLI_E_CMD_NOT_FOUND,    /* Command name not found in command table. */
     CLI_E_INVALID_ARGS,     /* Invalid function parameters/arguments.   */
-    CLI_E_BUF_FULL          /* CLI buffer full.                         */
+    CLI_E_BUF_FULL,         /* CLI buffer full.                         */
+	CLI_IDLE                /* No command to execute at the moment      */
 } cli_status_t;
 
 /*!

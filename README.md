@@ -77,9 +77,9 @@ if((rslt = cli_init(&cli)) != CLI_OK)
 
 ## User Guide
 To interface with the CLI, the user must open a communication stream on their chosen protocol (typically UART).
-The default end-of-delimiter used by the application is '\n', however this can be changed.
+The default end-of-delimiter used by the application is '\r', however this can be changed.
 The user can invoke their functions by sending:
-```echo <param>\n```
+```echo <param>\r```
 * echo, the name of the command
 * <param>, first parameter (if required).
 

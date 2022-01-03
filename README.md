@@ -64,7 +64,7 @@ cli_status_t rslt = CLI_OK;
 cli_t cli = {
     .println = user_uart_println,
     .cmd_tbl = cmds,
-    .cmd_cnt = sizeof(cmds)
+    .cmd_cnt = sizeof(cmds) / sizeof(cmd_t)
 };
 
 if((rslt = cli_init(&cli)) != CLI_OK)

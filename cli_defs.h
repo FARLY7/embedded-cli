@@ -3,8 +3,13 @@
 
 #include <stddef.h>
 
-#define MAX_BUF_SIZE        128     /* Maximum size of CLI Rx buffer */ 
+#ifndef MAX_BUF_SIZE
+#define MAX_BUF_SIZE        128     /* Maximum size of CLI Rx buffer */
+#endif
+
+#ifndef CMD_TERMINATOR
 #define CMD_TERMINATOR      '\r'    /* Delimiter denoting end of cmd from user */
+#endif
 
 typedef enum
 {
